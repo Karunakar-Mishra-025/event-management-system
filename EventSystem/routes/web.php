@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [Controller::class,"index"]);
+Route::get('/register', [UserController::class, "register"]);
+Route::post('/register', [UserController::class, "store"]);
+
+
+Route::get('/login', [UserController::class, "login"])->name("login")->middleware("guest")->middleware("prevent-back-history");
+Route::post('/authenticate', [UserController::class, "authenticate"]);
+
+Route::post("/logout", [UserController::class, "logout"]);
+
+
+Route::get('/admin', [AdminController::class, "login"])->middleware("guest")->middleware("prevent-back-history");
+Route::post('/admin-authenticate', [AdminController::class, "authenticate"]);
+
+
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->middleware('auth');
