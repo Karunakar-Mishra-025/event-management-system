@@ -2,7 +2,7 @@
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <form action="/admin-authenticate" method="post" class="card p-4 shadow">
+                <form action="/admin/authenticate" method="post" class="card p-4 shadow">
                     @csrf
                     <div class="mb-4 text-center">
                         <h2 class="mb-1">Admin Log In</h2>

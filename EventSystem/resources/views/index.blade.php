@@ -39,8 +39,8 @@
         var splide = new Splide('.splide', {
             type: 'loop',
             perPage: 3,
-            arrows: false,
             perMove: 1,
+            drag:false,
             autoplay: true,
             breakpoints: {
                 768: {

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [Controller::class,"index"]);
+Route::get('/', [Controller::class, "index"]);
 Route::get('/register', [UserController::class, "register"]);
 Route::post('/register', [UserController::class, "store"]);
 
@@ -26,9 +26,19 @@ Route::post('/authenticate', [UserController::class, "authenticate"]);
 
 Route::post("/logout", [UserController::class, "logout"]);
 
+Route::prefix('admin')->group(function () {
 
-Route::get('/admin', [AdminController::class, "login"])->middleware("guest")->middleware("prevent-back-history");
-Route::post('/admin-authenticate', [AdminController::class, "authenticate"]);
+    Route::get('/', [AdminController::class, 'login'])->name('admin.login');
+    Route::post('/authenticate', [AdminController::class, 'authenticate'])->name('admin.authenticate');
 
+    Route::middleware('is_admin')->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/events', [AdminController::class, 'events'])->name('admin.events');
+        Route::get('/add_event', [AdminController::class, 'add_event'])->name('admin.add_event');
+        Route::post('/store_event',[AdminController::class,'storeEvent'])->name("admin.storeEvent");
+        Route::get('/edit_event/{id}', [AdminController::class, 'edit_event'])->name('admin.edit_event');
+        Route::post('/update_event',[AdminController::class,'update_event'])->name("admin.updateEvent");
+        Route::post('/delete_event/{id}',[AdminController::class,'delete_event'])->name("admin.delete_Event");
+    });
 
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->middleware('auth');
+});
