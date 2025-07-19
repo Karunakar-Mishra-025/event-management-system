@@ -1,4 +1,4 @@
-<x-admin-layout title="View Events">
+<x-admin-layout title="Dashboard">
     <div class="row">
         <div class="col-md-12 grid-margin">
             <div class="d-flex justify-content-between align-items-center">
