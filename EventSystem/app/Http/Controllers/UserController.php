@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -24,7 +25,7 @@ class UserController extends Controller
 
         $user = User::create($formFeilds);
 
-        return redirect('/')->with('message', 'User Registered Successfully!');
+        return back()->with('message', 'User Registered Successfully!');
     }
 
     public function login()
@@ -63,5 +64,43 @@ class UserController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/')->with('message', 'You Have Been Logged Out !');
+    }
+    public function delete($id)
+    {
+        User::find($id)->delete();
+
+        return back()->with(["message" => "User Deleted Successfully!"]);
+
+    }
+    public function update(Request $request)
+    {
+        $user=User::find($request->id);
+        // Validate name and email always
+        $formFields = $request->validate([
+            'name' => ['required', 'min:3'],
+            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
+        ]);
+
+        // If any password fields are filled, validate all password fields
+        if ($request->filled('old_password') || $request->filled('new_password') || $request->filled('new_password_confirmation')) {
+
+            // Check if old password matches the current user's password
+            if (!Hash::check($request->old_password, $user->password)) {
+                return back()->withErrors(['old_password' => 'Old password is incorrect.']);
+            }
+
+            // Validate new password fields
+            $request->validate([
+                'new_password' => 'required|confirmed|min:6',
+            ]);
+
+            // Hash and update new password
+            $formFields['password'] = bcrypt($request->new_password);
+        }
+
+        // Update user
+        $user->update($formFields);
+
+        return back()->with('message', 'User updated successfully!');
     }
 }

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [Controller::class, "index"]);
 Route::get('/register', [UserController::class, "register"]);
-Route::post('/register', [UserController::class, "store"]);
+Route::post('/register', [UserController::class, "store"])->name("storeUser");
 
 
 Route::get('/login', [UserController::class, "login"])->name("login")->middleware("guest")->middleware("prevent-back-history");
@@ -33,12 +33,17 @@ Route::prefix('admin')->group(function () {
 
     Route::middleware('is_admin')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+        Route::get('/add_user', [AdminController::class, 'add_user'])->name('admin.add_user');
+        Route::get('/edit_user/{id}', [AdminController::class, 'edit_user'])->name('admin.edit_user');
+        Route::post('/update_user', [UserController::class, 'update'])->name("updateUser");
+        Route::post('/delete_user/{id}', [UserController::class, "delete"])->name('admin.delete_user');
         Route::get('/events', [AdminController::class, 'events'])->name('admin.events');
         Route::get('/add_event', [AdminController::class, 'add_event'])->name('admin.add_event');
-        Route::post('/store_event',[AdminController::class,'storeEvent'])->name("admin.storeEvent");
+        Route::post('/store_event', [AdminController::class, 'storeEvent'])->name("admin.storeEvent");
         Route::get('/edit_event/{id}', [AdminController::class, 'edit_event'])->name('admin.edit_event');
-        Route::post('/update_event',[AdminController::class,'update_event'])->name("admin.updateEvent");
-        Route::post('/delete_event/{id}',[AdminController::class,'delete_event'])->name("admin.delete_Event");
+        Route::post('/update_event', [AdminController::class, 'update_event'])->name("admin.updateEvent");
+        Route::post('/delete_event/{id}', [AdminController::class, 'delete_event'])->name("admin.delete_Event");
     });
 
 });

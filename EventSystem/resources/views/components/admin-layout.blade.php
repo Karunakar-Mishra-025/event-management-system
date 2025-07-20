@@ -78,8 +78,22 @@
                         </a>
                         <div class="collapse" id="ui-basic">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="/admin/add_event">Add Events</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/admin/add_event">Add Event</a></li>
                                 <li class="nav-item"><a class="nav-link" href="/admin/events">View Events</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic1" aria-expanded="false"
+                            aria-controls="ui-basic">
+                            <i class="ti-layers menu-icon"></i>
+                            <span class="menu-title">Users</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="ui-basic1">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link" href="/admin/add_user">Add User</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/admin/users">View Users</a></li>
                             </ul>
                         </div>
                     </li>
